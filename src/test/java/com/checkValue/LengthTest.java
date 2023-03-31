@@ -3,12 +3,12 @@ package com.checkValue;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.checkValue.Centimeter.*;
+import static com.checkValue.Length.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
-public class CheckValueForArchitectTest {
+public class LengthTest {
 
     @Nested
     class CheckValue{
@@ -16,30 +16,30 @@ public class CheckValueForArchitectTest {
         @Test
         void ToCheckIfEqualForInputFor1Cm(){
 
-            Centimeter oneCentimeter = new Centimeter(1);
+            Length oneCentimeter = centimeter(1.0);
 
-            Centimeter anotheroneCentimeter = new Centimeter(1);
+            Length anotherCentimeter = centimeter(1);
 
-            assertThat(oneCentimeter,is(equalTo(anotheroneCentimeter)));
+            assertThat(oneCentimeter,is(equalTo(anotherCentimeter)));
 
         }
 
         @Test
         void ToCheckIfNotEqualsForInputFor2Cm(){
 
-            Centimeter oneCentimeter = new Centimeter(1);
+            Length oneCentimeter = centimeter(1.0);
 
-            Centimeter anotheroneCentimeter = new Centimeter(2);
+            Length anotherCentimeter = centimeter(2.0);
 
-            assertThat(oneCentimeter,is(not(equalTo(anotheroneCentimeter))));
+            assertThat(oneCentimeter,is(not(equalTo(anotherCentimeter))));
         }
 
         @Test
         void toCheckIf1MeterIsEqualTo100Centimeter(){
 
-            Centimeter oneMeter = conversionMeterToCentimeter(1);
+            Length oneMeter = meter(1.0);
 
-            Centimeter _100Centimeter = new Centimeter(100);
+            Length _100Centimeter = centimeter(100);
 
             assertThat(oneMeter,is(equalTo(_100Centimeter)));
         }
@@ -47,9 +47,9 @@ public class CheckValueForArchitectTest {
         @Test
         void toCheckIf100CentimeterIsEqualTo0Point1Km(){
 
-            Centimeter _100Centimeter = new Centimeter(100);
+            Length _100Centimeter = centimeter(100);
 
-            Centimeter conversionKmToCm = conversionKmToCentimeter(0.1);
+            Length conversionKmToCm = kilometer(0.1);
 
             assertThat(conversionKmToCm,is(not(equalTo(_100Centimeter))));
         }
@@ -57,23 +57,47 @@ public class CheckValueForArchitectTest {
         @Test
         void toCheckIf1MeterIsEqualTo1000Centimeter(){
 
-            Centimeter oneMeter = conversionMeterToCentimeter(1);
+            Length oneMeter = meter(1);
 
-            Centimeter _100Centimeter = new Centimeter(1000);
+            Length _100Centimeter = centimeter(100);
 
-            assertThat(oneMeter,is(not(equalTo(_100Centimeter))));
+            assertThat(oneMeter,is(equalTo(_100Centimeter)));
         }
 
         @Test
         void toCheckIf100CentimeterIsNotEqualTo0Point1Km(){
 
-            Centimeter oneMeter = conversionKmToCentimeter(1);
+            Length oneMeter = kilometer(1);
 
-            Centimeter _100000Centimeter = new Centimeter(100000);
+            Length _100000Centimeter = centimeter(100000);
 
             assertThat(oneMeter,is(equalTo(_100000Centimeter)));
         }
-    }
 
+        @Test
+        void toCheckIf1MeterPlus100CentimeterTo2Meter(){
+
+            Length oneMeter = kilometer(1);
+
+            Length _100Centimeter = centimeter(100);
+
+            Length twoMeter = meter(2);
+
+            assertThat(oneMeter.arithmetic(_100Centimeter),is(not(equalTo(twoMeter))));
+
+        }
+
+        @Test
+        void toCheckIf200CentiMeterPlus1KilometerTo100200Meter(){
+
+            Length _200CentiMeter = centimeter(200);
+
+            Length _1Kilometer = kilometer(1);
+
+            Length _1LakhsTwoThousandMeter = centimeter(100200);
+
+            assertThat(_200CentiMeter.arithmetic(_1Kilometer),is(equalTo(_1LakhsTwoThousandMeter)));
+        }
+    }
 }
 
